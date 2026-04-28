@@ -8,21 +8,19 @@ local gui = Instance.new("ScreenGui")
 gui.Name = "DeltaUI"
 gui.Parent = player:WaitForChild("PlayerGui")
 
--- 🔧 FUNCTION AMBIL GAMBAR (ANTI NIL)
-local function getImage(pathList)
-	for _, path in ipairs(pathList) do
-		local success, result = pcall(function()
-			return getcustomasset(path)
-		end)
-		
-		if success and result then
-			print("Loaded image:", path)
-			return result
-		end
-	end
+-- 🔧 FUNCTION LOAD IMAGE (WORKSPACE FIX)
+local function loadImage(path)
+	local success, result = pcall(function()
+		return getcustomasset(path)
+	end)
 	
-	warn("Gagal load semua path gambar!")
-	return ""
+	if success and result then
+		print("✅ Loaded:", path)
+		return result
+	else
+		warn("❌ Gagal load:", path)
+		return ""
+	end
 end
 
 -- FRAME
@@ -32,12 +30,7 @@ frame.Size = UDim2.new(0, 350, 0, 220)
 frame.Position = UDim2.new(0.5, -175, 0.5, -110)
 frame.BackgroundTransparency = 1
 
-frame.Image = getImage({
-	"DeltaUI/Images/frame.png",
-	"DeltaUI/images/frame.png",
-	"Images/frame.png",
-	"frame.png"
-})
+frame.Image = loadImage("workspace/images/frame.png")
 
 -- BUTTON
 local button = Instance.new("ImageButton")
@@ -46,12 +39,7 @@ button.Size = UDim2.new(0, 200, 0, 80)
 button.Position = UDim2.new(0.5, -100, 0.6, 0)
 button.BackgroundTransparency = 1
 
-button.Image = getImage({
-	"DeltaUI/Images/button.png",
-	"DeltaUI/images/button.png",
-	"Images/button.png",
-	"button.png"
-})
+button.Image = loadImage("workspace/images/button.png")
 
 -- 🔥 WOBBLE EFFECT
 local function wobble(ui)
@@ -83,5 +71,5 @@ end
 -- EVENT
 button.MouseButton1Click:Connect(function()
 	wobble(button)
-	print("UI kamu jalan 😎")
+	print("🔥 UI kamu jalan bro!")
 end)
